@@ -1,0 +1,190 @@
+// Definición de los ramos y sus requisitos
+const malla = [
+  {
+    semestre: 1,
+    ramos: [
+      { id: "razonamiento", nombre: "Razonamiento lógico matemático", abre: ["estadisticas"] },
+      { id: "quimica", nombre: "Química", abre: ["bioquimica"] },
+      { id: "biocel", nombre: "Biología Celular", abre: ["microbiologia"] },
+      { id: "bases_disc", nombre: "Bases Disciplinarias para el cuidado de enfermería", abre: ["bases_aps", "fundamentos_proceso"] },
+      { id: "comunicativas", nombre: "Taller de competencias comunicativas" },
+      { id: "aprendizaje", nombre: "Taller de competencias para el aprendizaje" },
+      { id: "desarrollo_pers1", nombre: "Taller del desarrollo personal 1" }
+    ]
+  },
+  {
+    semestre: 2,
+    ramos: [
+      { id: "crecimiento", nombre: "Crecimiento y desarrollo" },
+      { id: "bioquimica", nombre: "Bioquímica", req: ["quimica"], abre: ["farmacologia"] },
+      { id: "anat", nombre: "Fundamentos anatómicos para el cuidado", abre: ["fisiologia", "fundamentos_proceso"] },
+      { id: "bases_aps", nombre: "Bases de enfermería en APS", req: ["bases_disc"], abre: ["farmacologia", "proceso_enf"] },
+      { id: "primeros_aux", nombre: "Taller de primeros auxilios" },
+      { id: "desarrollo_pers2", nombre: "Taller del desarrollo personal 2" },
+      { id: "cultura", nombre: "Cultura y valores" }
+    ]
+  },
+  {
+    semestre: 3,
+    ramos: [
+      { id: "estadisticas", nombre: "Estadísticas para ciencias de la salud", req: ["razonamiento"], abre: ["salud_publica"] },
+      { id: "fisiologia", nombre: "Fisiología", req: ["anat"], abre: ["patologias"] },
+      { id: "microbiologia", nombre: "Microbiología y parasitología clínica", req: ["biocel"] },
+      { id: "farmacologia", nombre: "Farmacología", req: ["bioquimica", "bases_aps"], abre: ["proceso_enf"] },
+      { id: "fundamentos_proceso", nombre: "Fundamentos del proceso de enfermería", req: ["bases_disc", "anat"], abre: ["proceso_enf", "gestion_salud_mental"] },
+      { id: "persona_sentido", nombre: "Persona y sentido" }
+    ]
+  },
+  {
+    semestre: 4,
+    ramos: [
+      { id: "salud_publica", nombre: "Fundamentos en salud pública", req: ["estadisticas"], abre: ["metodologia"] },
+      { id: "patologias", nombre: "Bases patológicas para el cuidado", req: ["fisiologia"] },
+      { id: "intervenciones", nombre: "Intervenciones educativas en salud" },
+      { id: "gestion_salud_mental", nombre: "Gestión de cuidado en salud mental", req: ["fundamentos_proceso"], abre: ["gestion_familia_aps"] },
+      { id: "proceso_enf", nombre: "Proceso de enfermería", req: ["fundamentos_proceso", "farmacologia", "bases_aps"], abre: ["gdc_adulto_medico"] },
+      { id: "ingles1", nombre: "Inglés básico 1", abre: ["ingles2"] }
+    ]
+  },
+  {
+    semestre: 5,
+    ramos: [
+      { id: "gestion_salud", nombre: "Gestión en salud", abre: ["gestion_cuidado"] },
+      { id: "gestion_adulto_mayor", nombre: "Gestión del cuidado en adulto mayor", abre: ["gdc_adulto_aps"] },
+      { id: "gestion_familia_aps", nombre: "Gestión del cuidado en la familia en APS", req: ["gestion_salud_mental"], abre: ["gdc_adulto_aps"] },
+      { id: "gdc_adulto_medico", nombre: "GDC en Adulto y Adulto Mayor Hospitalizado Médico", req: ["proceso_enf"], abre: ["urgencias", "nino_adolescente"] },
+      { id: "ingles2", nombre: "Inglés básico 2", req: ["ingles1"] }
+    ]
+  },
+  {
+    semestre: 6,
+    ramos: [
+      { id: "gestion_cuidado", nombre: "Gestión del cuidado", req: ["gestion_salud"], abre: ["calidad_seguridad"] },
+      { id: "gdc_adulto_aps", nombre: "GDC en Adulto y Adulto Mayor en APS", req: ["gestion_adulto_mayor", "gestion_familia_aps"], abre: ["gdc_nino_aps"] },
+      { id: "etica", nombre: "Ética en salud" },
+      { id: "gdc_adulto_quirurgico", nombre: "GDC en Adulto y Adulto Mayor Hospitalizado Quirúrgico", abre: ["urgencias", "nino_adolescente"] },
+      { id: "electivo1", nombre: "Electivo 1" }
+    ]
+  },
+  {
+    semestre: 7,
+    ramos: [
+      { id: "metodologia", nombre: "Metodología de la investigación", req: ["salud_publica"], abre: ["seminario"] },
+      { id: "nino_adolescente", nombre: "Fundamentos del Cuidado en Niño y Adolescente Hospitalizado", req: ["gdc_adulto_medico", "gdc_adulto_quirurgico"], abre: ["gdc_nino_hosp"] },
+      { id: "gdc_nino_aps", nombre: "Gestión del Cuidado en Niño y Adolescente en APS", req: ["gdc_adulto_aps"], abre: ["promocion_salud"] },
+      { id: "urgencias", nombre: "Fundamentos del Cuidado en Urgencias y Desastres", req: ["gdc_adulto_medico", "gdc_adulto_quirurgico"], abre: ["gdc_urgencias"] },
+      { id: "electivo2", nombre: "Electivo 2" }
+    ]
+  },
+  {
+    semestre: 8,
+    ramos: [
+      { id: "seminario", nombre: "Seminario de investigación", req: ["metodologia"] },
+      { id: "calidad_seguridad", nombre: "Gestión de calidad y seguridad", req: ["gestion_cuidado"] },
+      { id: "gdc_nino_hosp", nombre: "Gestión del Cuidado en Niño y Adolescente Hospitalizado", req: ["nino_adolescente"] },
+      { id: "promocion_salud", nombre: "Promoción de la Salud en Organizaciones Comunitarias", req: ["gdc_nino_aps"] },
+      { id: "gdc_urgencias", nombre: "GDC en Urgencias y Desastres", req: ["urgencias"] },
+      { id: "electivo3", nombre: "Electivo 3" }
+    ]
+  },
+  {
+    semestre: 9,
+    ramos: [
+      { id: "internado9", nombre: "Internado" }
+    ]
+  },
+  {
+    semestre: 10,
+    ramos: [
+      { id: "internado10", nombre: "Internado" }
+    ]
+  }
+];
+
+// Estado de los ramos
+let estado = {};
+
+// Inicializa el estado desde localStorage
+function cargarEstado() {
+  const guardado = localStorage.getItem("estadoMalla");
+  if (guardado) {
+    estado = JSON.parse(guardado);
+  } else {
+    malla.forEach(sem => sem.ramos.forEach(ramo => { estado[ramo.id] = "bloqueado"; }));
+    // Desbloquea los del primer semestre
+    malla[0].ramos.forEach(ramo => { estado[ramo.id] = "activo"; });
+  }
+}
+
+// Guarda el estado
+function guardarEstado() {
+  localStorage.setItem("estadoMalla", JSON.stringify(estado));
+}
+
+// Verifica si los requisitos están aprobados
+function requisitosAprobados(ramo) {
+  if (!ramo.req) return true;
+  return ramo.req.every(id => estado[id] === "aprobado");
+}
+
+// Desbloquea los ramos que dependían de este
+function desbloquearRamos(ramoId) {
+  malla.forEach(sem =>
+    sem.ramos.forEach(ramo => {
+      if (ramo.req && ramo.req.includes(ramoId) && estado[ramo.id] !== "aprobado") {
+        if (requisitosAprobados(ramo)) estado[ramo.id] = "activo";
+      }
+      if (ramo.abre && ramo.abre.includes(ramoId) && estado[ramo.id] !== "aprobado") {
+        estado[ramo.id] = "activo";
+      }
+    })
+  );
+}
+
+// Renderiza la malla
+function render() {
+  const cont = document.getElementById("malla");
+  cont.innerHTML = "";
+  malla.forEach(sem => {
+    const semDiv = document.createElement("div");
+    semDiv.className = "semestre";
+    semDiv.innerHTML = `<h2>Semestre ${sem.semestre}</h2>`;
+    sem.ramos.forEach(ramo => {
+      const estadoRamo = estado[ramo.id] || "bloqueado";
+      const ramoDiv = document.createElement("div");
+      ramoDiv.className = `ramo ${estadoRamo}`;
+      ramoDiv.innerHTML = `
+        <span>${ramo.nombre}</span>
+        <button ${estadoRamo !== "activo" ? "disabled" : ""}>
+          ${estadoRamo === "aprobado" ? "Aprobado" : "Aprobar"}
+        </button>
+      `;
+      ramoDiv.querySelector("button").onclick = () => aprobarRamo(ramo);
+      semDiv.appendChild(ramoDiv);
+    });
+    cont.appendChild(semDiv);
+  });
+}
+
+// Lógica al aprobar un ramo
+function aprobarRamo(ramo) {
+  if (estado[ramo.id] !== "activo") return;
+  estado[ramo.id] = "aprobado";
+  // Desbloquea los que dependen de este
+  malla.forEach(sem =>
+    sem.ramos.forEach(r => {
+      if (r.req && r.req.includes(ramo.id)) {
+        if (requisitosAprobados(r)) estado[r.id] = "activo";
+      }
+      if (ramo.abre && ramo.abre.includes(r.id)) {
+        estado[r.id] = "activo";
+      }
+    })
+  );
+  guardarEstado();
+  render();
+}
+
+// Inicialización
+cargarEstado();
+render();
