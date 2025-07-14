@@ -1,0 +1,92 @@
+body {
+  background: #fff0f6;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #4a154b;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  color: #d72660;
+  margin-top: 24px;
+}
+
+#malla {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  margin: 32px auto;
+  max-width: 1200px;
+}
+
+.semestre {
+  background: #ffe3f3;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px #d7266033;
+  padding: 20px 16px 16px 16px;
+  min-width: 260px;
+  max-width: 290px;
+  flex: 1 1 260px;
+}
+
+.semestre h2 {
+  color: #d72660;
+  margin-bottom: 12px;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.ramo {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 2px solid #d72660;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  transition: background 0.2s, opacity 0.2s;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.ramo.activo {
+  opacity: 1;
+  background: #ffd1ea;
+  cursor: pointer;
+  border-color: #ed3c87;
+}
+
+.ramo.aprobado {
+  background: #f7a1c4;
+  border-color: #a61c49;
+  text-decoration: line-through;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.ramo button {
+  margin-left: auto;
+  background: #d72660;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ramo button:disabled {
+  background: #f2b5d4;
+  cursor: not-allowed;
+}
+
+.ramo.activo button {
+  background: #ed3c87;
+}
+
+.ramo.aprobado button {
+  background: #a61c49;
+}
